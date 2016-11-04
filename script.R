@@ -69,6 +69,7 @@ str(d_train)                                                         #check stru
 names(d_train)                                                       #check headers of training data
 
 #Set up table of all permutations
+#this is really stupid but i'll fix it later when i'm cleaning up
 tbl1 <- gtools::combinations(8, 1)
 tbl2 <- gtools::combinations(8, 2)    
 tbl3 <- gtools::combinations(8, 3)
@@ -84,6 +85,7 @@ tbl[is.na(tbl)] = 0
 
 N=255
 oac <- rep(0,N)
+time <- proc.time()
 for (i in 1:N)
 {
 #  d <- df[,c(i, ncol(df))]
@@ -95,6 +97,9 @@ for (i in 1:N)
   oac[i] <- bestTh[1]
 }
                                                                     #accuracy: 0.8474
+nuTime <- proc.time() - time
+cat(sprintf("that took %s seconds\n", nuTime))
+
 (mx <- max(oac))                                                    #max(oac) 
 (setx <- match(mx, oac))                                            #matches max to list
 tbl[setx,]                                                       
@@ -107,7 +112,10 @@ names(d_train)[tbl[setx, c(1, 2, 3, 4, 5, 6, 7, 8)]]                #ID variable
 suppressMessages(library(randomForest))
 
 #set up function
-random_falle <- randomForest(income ~ ., data = d_train, mtry = 4, ntree = 100)
+time <- proc.time()
+random_falle <- randomForest(income ~ ., data = d_train, mtry = 4, ntree = 1000)
+newTime <- proc.time() - time
+cat(sprintf("that took %s seconds\n", newTime))
 class(random_falle)                                                 #check function is correct
 str(random_falle)                                                   #check structure of function
 random_falle$confusion                                              #check confusion martix of function
@@ -120,9 +128,6 @@ prop.table(table(irja, d_test$income))                              #probabiliti
 prop.table(table(irja, d_test$income), 1)                           #probabilities of prediction
 prop.table(table(irja, d_test$income), 2)                           #probabilities of actual value
 (confusionMatrix(tbl_rf))                                           #check accuracy (~0.8535)
-
-###combination of models
-#--------------
 
 #check validity of required functions
 (confusionMatrix(tbl_rf))
