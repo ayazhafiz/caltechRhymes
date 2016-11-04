@@ -26,15 +26,15 @@ findBestThold <- function( predictions, labels, figFileName ){
 
 #read data   
 forvara = read.table("adult.data.txt",
-                     sep=",",header=F,col.names=c("age", "type_employer", "fnlwgt", "education",
+                     sep = ",", header = F, col.names = c("age", "type_employer", "fnlwgt", "education",
                                                   "education_num","marital", "occupation", "relationship", "race","sex",
                                                   "capital_gain", "capital_loss", "hr_per_week","country", "income"),
-                     fill=FALSE,strip.white=T)
+                     fill = FALSE, strip.white = T)
 maena = read.table("adult.test.txt",
-                   sep=",",header=F,col.names=c("age", "type_employer", "fnlwgt", "education", 
+                   sep = ",", header = F, col.names = c("age", "type_employer", "fnlwgt", "education", 
                                                 "education_num","marital", "occupation", "relationship", "race","sex",
                                                 "capital_gain", "capital_loss", "hr_per_week","country", "income"),
-                   fill=FALSE,strip.white=T)
+                   fill = FALSE, strip.white = T)
 
 #combine data
 totaldata <- rbind(forvara, maena)
@@ -44,7 +44,9 @@ idx <- c(1:32561)
 d_train <- totaldata[idx,]
 d_test <- totaldata[-idx,]
 
-###Logistic Regression Model
+#we need to plant seed for testing data
+## do s/thing here
+
 #--------------
 
 #load up libraries
@@ -61,9 +63,8 @@ d_train$marital <- NULL
 d_train$hr_per_week <- NULL
 d_train$country <- NULL
 
-#check correctness of training data
-str(d_train)                                                         #check structure of training data
-names(d_train)                                                       #check headers of training data
+str(d_train)  
+names(d_train)
 
 #Set up table of all permutations
 #this is really stupid but i'll fix it later when i'm cleaning up
@@ -81,7 +82,7 @@ tbl <- matrix(valje, 255, 8)
 tbl[is.na(tbl)] = 0
 
 N=255
-oac <- rep(0,N)
+oac <- rep(0, N)
 time <- proc.time()
 for (i in 1:N)
 {
