@@ -2,9 +2,6 @@ rm(list = ls())                                                       #clear all
 
 require(ROCR)                                                         #essential package for visualisation
 
-#set destination location
-setwd ("/Users/dvmvnds/Desktop/R Projects/")
-
 #essential efficiency function
 findBestThold <- function( predictions, labels, figFileName ){
   # pred <- prediction(predictions, testing$good)
